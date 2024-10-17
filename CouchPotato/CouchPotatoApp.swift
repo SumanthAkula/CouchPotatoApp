@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct CouchPotatoApp: App {
+    init() {
+        // Firebase.configure() call here if using Firebase
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(TvMazeApiService())
+                .environmentObject(TvStateManager())
         }
     }
 }
