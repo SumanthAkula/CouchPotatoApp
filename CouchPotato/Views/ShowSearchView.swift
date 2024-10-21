@@ -70,9 +70,6 @@ struct ShowSearchView: View {
                 
                 ForEach(shows, id: \.id) { show in
                     ShowSearchResultView(show: show)
-                        .contextMenu {
-                            ShowDetailView(show: show)
-                        }
                 }
             }
             .navigationTitle(navigationTitle)
