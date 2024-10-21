@@ -94,3 +94,35 @@ struct TvSearchResult: Codable {
     let score: Double
     let show: TvShow
 }
+
+struct TvEpisode: Codable {
+    let id: Int
+    let name: String
+    let season: Int
+    let number: Int?
+    let airstamp: Date?
+    let runtime: Int?
+    let rating: ShowRating
+    let image: TvImageUrl?
+    let summary: String?
+}
+
+struct TvEmbeddings: Codable {
+    let previousEpisode: TvLink?
+    let nextEpisode: TvLink?
+    
+    enum CodingKeys: String, CodingKey {
+        case previousEpisode = "previousepisode"
+        case nextEpisode = "nextepisode"
+    }
+}
+
+struct TvLink: Codable {
+    let name: String?
+    let link: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case link = "href"
+    }
+}
