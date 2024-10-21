@@ -135,20 +135,28 @@ struct FavoriteShowsRowView: View {
 }
 
 struct MyShowsView: View {
-    @EnvironmentObject var tvStateManager: TvStateManager
+    @EnvironmentObject var favoritedShowsManager: FavoritedShowsManager
     
     private let navigationTitle: String = "My Shows"
     
     var body: some View {
         NavigationStack {
             VStack {
-                if tvStateManager.trackedShows.isEmpty {
+                if favoritedShowsManager.trackedShows.isEmpty {
                     NoTrackedShowsView()
                 } else {
                     List {
-                        ForEach(tvStateManager.trackedShows, id: \.id) { show in
-                            NavigationLink(show.name, destination: ShowDetailView(show: show))
+                        ForEach(favoritedShowsManager.trackedShows, id: \.id) { show in
+                            NavigationLink(destination: ShowDetailView(show: show)) {
+                                FavoriteShowsRowView(show: show)
+                            }
                         }
+                        .onDelete { indices in
+                            favoritedShowsManager.trackedShows.remove(atOffsets: indices)
+                        }
+                    }
+                    .toolbar {
+                        EditButton()
                     }
                 }
             }
