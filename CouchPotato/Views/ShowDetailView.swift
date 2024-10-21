@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ShowDetailView: View {
-    @EnvironmentObject var stateManager: TvStateManager
-    @State var tracked: Bool = false
+    @EnvironmentObject var showsManager: FavoritedShowsManager
+    
+    @State var favorited: Bool = false
+    @State var notify: Bool = false
     
     let show: TvShow
     
@@ -22,13 +24,17 @@ struct ShowDetailView: View {
                     Color.gray
                 }
                 .scaledToFit()
-                .clipShape(.rect(cornerRadius: 25))
+                .clipShape(.rect(cornerRadius: 15))
+                .shadow(radius: 15)
                 .padding(.horizontal, 50)
                 .padding(.vertical)
             }
+            
             Text(show.name)
                 .font(.title)
+            
             Text(show.genres.joined(separator: ", "))
+            
             Divider()
             
             if let summary = show.summary {
@@ -39,9 +45,11 @@ struct ShowDetailView: View {
             Divider()
         }
         .onAppear {
-            tracked = stateManager.trackedShows.contains(where: { element in
+            favorited = showsManager.trackedShows.contains(where: { element in
                 element.id == show.id
             })
+            
+            notify = showsManager.notificationIds[show.id] != nil
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -50,8 +58,8 @@ struct ShowDetailView: View {
                     Text(show.name)
                         .font(.headline)
                     
-                    if tracked {
-                        Text("Tracking")
+                    if favorited {
+                        Text("Favorited")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -59,16 +67,36 @@ struct ShowDetailView: View {
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                Button("Track", systemImage: tracked ? "star.fill" : "star") {
-                    tracked.toggle()
+                HStack {
+                    Button("Notify Me", systemImage: notify ? "bell.fill" : "bell") {
+                        if (!notify) {
+                            showsManager.enableNotifications(for: show)
+                        } else {
+                            showsManager.disableNotifications(for: show)
+                        }
+                        
+                        notify = showsManager.notificationIds[show.id] != nil
+                    }
+                    
+                    Button("Track", systemImage: favorited ? "star.fill" : "star") {
+                        favorited.toggle()
+                    }
                 }
             }
+            
         }
-        .onChange(of: tracked) {
-            if (tracked) {
-                stateManager.track(show: show)
+        .onChange(of: favorited) {
+            if (favorited) {
+                showsManager.favorite(show: show)
             } else {
-                stateManager.untrack(show: show)
+                showsManager.unfavorite(show: show)
+            }
+        }
+        .onChange(of: notify) {
+            if (notify) {
+                showsManager.enableNotifications(for: show)
+            } else {
+                showsManager.disableNotifications(for: show)
             }
         }
     }
