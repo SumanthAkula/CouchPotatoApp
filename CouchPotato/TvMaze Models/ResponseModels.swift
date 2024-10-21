@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ShowSchedule: Hashable, Codable {
+struct ShowSchedule: Codable {
     let time: String
     let days: [String]
     
@@ -16,7 +16,7 @@ struct ShowSchedule: Hashable, Codable {
     }
 }
 
-struct ShowRating: Hashable, Codable {
+struct ShowRating: Codable {
     let average: Double?
     
     static func ==(lhs: ShowRating, rhs: ShowRating) -> Bool {
@@ -24,7 +24,7 @@ struct ShowRating: Hashable, Codable {
     }
 }
 
-struct TvNetwork: Hashable, Codable {
+struct TvNetwork: Codable {
     let id: Int
     let name: String
     let country: TvCountry
@@ -35,7 +35,7 @@ struct TvNetwork: Hashable, Codable {
     }
 }
 
-struct TvCountry: Hashable, Codable {
+struct TvCountry: Codable {
     let name: String
     let code: String
     let timezone: String
@@ -45,7 +45,7 @@ struct TvCountry: Hashable, Codable {
     }
 }
 
-struct TvImageUrl: Hashable, Codable {
+struct TvImageUrl: Codable {
     let small: String?
     let medium: String?
     let large: String?
@@ -66,7 +66,7 @@ struct TvImageUrl: Hashable, Codable {
     }
 }
 
-struct TvShow: Hashable, Identifiable, Codable {
+struct TvShow: Identifiable, Codable {
     let id: Int
     let url: URL
     let name: String
