@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var tvMazeService: TvMazeApiService
-    
     var body: some View {
         TabView {
             Tab("My Shows", systemImage: "film.stack") {
