@@ -89,11 +89,12 @@ class TvMazeApiService {
                 do {
                     let result = try decoder.decode([TvSearchResult].self, from: data)
                     let shows = result.map { $0.show }
+                    print("\(queryURL): \(shows.map { $0.name })")
                     
                     completion(.success(shows))
                 } catch (let error) {
                     if let url = request.url {
-                        print("error: request url: \(url)")
+                        print("error: request url: \(url): \(error)")
                     }
                     completion(.failure(error))
                 }
