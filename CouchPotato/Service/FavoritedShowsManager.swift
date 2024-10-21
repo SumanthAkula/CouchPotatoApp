@@ -42,13 +42,13 @@ class FavoritedShowsManager: ObservableObject {
         }
     }
     
-    func track(show target: TvShow) {
+    func favorite(show target: TvShow) {
         if !trackedShows.contains(where: { $0.id == target.id }) {
             trackedShows.append(target)
         }
     }
     
-    func untrack(show target: TvShow) {
+    func unfavorite(show target: TvShow) {
         trackedShows.removeAll { $0.id == target.id }
     }
     
