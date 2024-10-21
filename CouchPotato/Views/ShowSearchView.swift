@@ -12,10 +12,30 @@ struct ShowSearchResultView: View {
     
     var body: some View {
         NavigationLink(destination: ShowDetailView(show: show)) {
-            VStack(alignment: .leading) {
-                Text("\(show.name)")
-                Text("\(show.url)")
-                    .font(.caption)
+            HStack {
+                if let image = show.image {
+                    AsyncImage(url: image.url) { image in
+                        image.resizable()
+                    } placeholder: {
+                        Color.gray
+                    }
+                    .scaledToFit()
+                    .frame(width: 50)
+                    .clipShape(.rect(cornerRadius: 5))
+                    .shadow(radius: 5)
+                }
+                
+                VStack(alignment: .leading) {
+                    Text("\(show.name)")
+                    if let network = show.network {
+                        Text(network.name)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    Text("\(show.genres.joined(separator: ", "))")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             }
         }
     }
