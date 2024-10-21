@@ -10,7 +10,7 @@ import SwiftUI
 struct NoTrackedShowsView: View {
     var body: some View {
         VStack {
-            Text("There are no shows currently being tracked")
+            Text("There are no shows currently being favorited")
                 .font(.headline)
             Text("You can search for a show to add to this list")
                 .font(.subheadline)
