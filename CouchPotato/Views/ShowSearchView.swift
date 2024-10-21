@@ -42,8 +42,6 @@ struct ShowSearchResultView: View {
 }
 
 struct ShowSearchView: View {
-    @EnvironmentObject var tvMazeService: TvMazeApiService
-    
     @State private var searchQuery: String = ""
     @State private var shows: [TvShow] = []
     
@@ -57,7 +55,7 @@ struct ShowSearchView: View {
                 Section {
                     TextField("Search for a TV show...", text: $searchQuery)
                         .onChange(of: searchQuery) {
-                            tvMazeService.searchForShow(query: searchQuery) { result in
+                            TvMazeApiService.searchForShow(query: searchQuery) { result in
                                 switch (result) {
                                     case .success(let result):
                                         shows = result
