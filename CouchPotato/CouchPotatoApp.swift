@@ -16,8 +16,7 @@ struct CouchPotatoApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(TvMazeApiService())
-                .environmentObject(TvStateManager())
+                .environmentObject(FavoritedShowsManager())
         }
     }
 }
