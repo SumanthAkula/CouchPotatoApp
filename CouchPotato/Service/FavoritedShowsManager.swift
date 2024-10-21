@@ -25,7 +25,6 @@ class FavoritedShowsManager: ObservableObject {
         }
     }
     
-    
     init() {
         // decode favorite shows list from UserDefaults
         if let data = UserDefaults.standard.data(forKey: "tracked_shows") {
