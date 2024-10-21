@@ -7,29 +7,45 @@
 
 import Foundation
 
-struct ShowSchedule: Codable {
+struct ShowSchedule: Hashable, Codable {
     let time: String
     let days: [String]
+    
+    static func ==(lhs: ShowSchedule, rhs: ShowSchedule) -> Bool {
+        return lhs.time == rhs.time && lhs.days == rhs.days
+    }
 }
 
-struct ShowRating: Codable {
+struct ShowRating: Hashable, Codable {
     let average: Double?
+    
+    static func ==(lhs: ShowRating, rhs: ShowRating) -> Bool {
+        return lhs.average == rhs.average
+    }
 }
 
-struct TvNetwork: Codable {
+struct TvNetwork: Hashable, Codable {
     let id: Int
     let name: String
     let country: TvCountry
     let officialSite: String?
+    
+    static func ==(lhs: TvNetwork, rhs: TvNetwork) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
-struct TvCountry: Codable {
+struct TvCountry: Hashable, Codable {
     let name: String
     let code: String
     let timezone: String
+    
+    static func ==(lhs: TvCountry, rhs: TvCountry) -> Bool {
+        return lhs.code == rhs.code
+    }
 }
 
-struct TvImageUrl: Codable {
+struct TvImageUrl: Hashable, Codable {
     let small: String?
     let medium: String?
     let large: String?
@@ -50,7 +66,7 @@ struct TvImageUrl: Codable {
     }
 }
 
-struct TvShow: Identifiable, Codable {
+struct TvShow: Hashable, Identifiable, Codable {
     let id: Int
     let url: URL
     let name: String
@@ -68,6 +84,10 @@ struct TvShow: Identifiable, Codable {
     let network: TvNetwork?
     let image: TvImageUrl?
     let summary: String
+    
+    static func ==(lhs: TvShow, rhs: TvShow) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 struct TvSearchResult: Codable {
