@@ -30,8 +30,13 @@ struct ShowDetailView: View {
                 .font(.title)
             Text(show.genres.joined(separator: ", "))
             Divider()
-            Text(show.summary.replacingOccurrences(of: #"\</?(p|b)>"#, with: "", options: .regularExpression, range: nil))
-                .padding()
+            
+            if let summary = show.summary {
+                Text(summary.replacingOccurrences(of: #"\</?(p|b|i)>"#, with: "", options: .regularExpression, range: nil).replacingOccurrences(of: #"\<br />"#, with: "\n", options: .regularExpression, range: nil))
+                    .padding()
+            }
+            
+            Divider()
         }
         .onAppear {
             tracked = stateManager.trackedShows.contains(where: { element in
