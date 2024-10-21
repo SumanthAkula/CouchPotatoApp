@@ -63,6 +63,10 @@ class FavoritedShowsManager: ObservableObject {
         var dateComponents = DateComponents()
         dateComponents.calendar = Calendar.current
         
+        if show.schedule.time == "" {
+            return
+        }
+        
         let showtime = show.schedule.time.split(separator: ":").map { string in
             Int(string)
         }   // turns the string "9:30" or "09:54" to an array of ints [9, 30], or [9, 54]
