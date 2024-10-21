@@ -72,7 +72,7 @@ struct TvShow: Identifiable, Codable {
     let name: String
     let type: String
     let genres: [String]
-    let language: String
+    let language: String?
     let status: String
     let runtime: Int?
     let averageRuntime: Int?
@@ -83,7 +83,8 @@ struct TvShow: Identifiable, Codable {
     let rating: ShowRating
     let network: TvNetwork?
     let image: TvImageUrl?
-    let summary: String
+    let summary: String?
+    let _links: TvEmbeddings
     
     static func ==(lhs: TvShow, rhs: TvShow) -> Bool {
         return lhs.id == rhs.id
