@@ -62,7 +62,7 @@ class FavoritedShowsManager: ObservableObject {
         var dateComponents = DateComponents()
         dateComponents.calendar = Calendar.current
         
-        if show.schedule.time == "" {
+        if show.schedule.time == "" {   // if there is no valid schedule, early return
             return
         }
         
