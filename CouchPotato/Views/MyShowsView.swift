@@ -16,10 +16,8 @@ struct NoTrackedShowsView: View {
                 .font(.subheadline)
                 .foregroundStyle(Color.secondary)
         }
-        
     }
 }
-
 
 struct MyShowsView: View {
     @EnvironmentObject var favoritedShowsManager: FavoritedShowsManager
@@ -40,6 +38,9 @@ struct MyShowsView: View {
                         }
                         .onDelete { indices in
                             favoritedShowsManager.trackedShows.remove(atOffsets: indices)
+                        }
+                        .onMove { source, dest in
+                            favoritedShowsManager.trackedShows.move(fromOffsets: source, toOffset: dest)
                         }
                     }
                     .toolbar {
