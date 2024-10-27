@@ -94,10 +94,12 @@ class FavoritedShowsManager: ObservableObject {
                     continue
             }
             
+            // step 3: create a notification trigger for each day the app has to send a notification
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
             let uuid = UUID().uuidString
             let request = UNNotificationRequest(identifier: uuid, content: content, trigger: trigger)
             
+            // step 4: add the request to notification center
             let notificationCenter = UNUserNotificationCenter.current()
             notificationCenter.add(request) { error in
                 if let error = error {
@@ -112,6 +114,7 @@ class FavoritedShowsManager: ObservableObject {
     }
     
     func disableNotifications(for show: TvShow) {
+        // if the ID exists in the notificationIds dict, remove it and remove the request associated with that ID
         if let ids = self.notificationIds[show.id] {
             let center = UNUserNotificationCenter.current()
             center.removePendingNotificationRequests(withIdentifiers: ids)

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// if there are no tracked shows, this will be shown
 struct NoTrackedShowsView: View {
     var body: some View {
         VStack {
@@ -37,14 +38,16 @@ struct MyShowsView: View {
                             }
                         }
                         .onDelete { indices in
+                            // remove show from the list
                             favoritedShowsManager.trackedShows.remove(atOffsets: indices)
                         }
                         .onMove { source, dest in
+                            // move show from one spot to another in the array
                             favoritedShowsManager.trackedShows.move(fromOffsets: source, toOffset: dest)
                         }
                     }
                     .toolbar {
-                        EditButton()
+                        EditButton() // show an edit button in the toolbar
                     }
                 }
             }

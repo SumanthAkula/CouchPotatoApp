@@ -66,6 +66,7 @@ struct TvImageUrl: Codable {
     }
 }
 
+// result from the search API
 struct TvShow: Identifiable, Codable {
     let id: Int
     let url: URL

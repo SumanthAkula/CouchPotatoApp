@@ -16,7 +16,7 @@ struct CouchPotatoApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(FavoritedShowsManager())
+                .environmentObject(FavoritedShowsManager()) // state manager environment object
         }
     }
 }

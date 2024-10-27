@@ -18,6 +18,7 @@ struct ShowDetailView: View {
     var body: some View {
         ScrollView {
             if let image = show.image {
+                // async image lets the view load before the image itself loads
                 AsyncImage(url: image.url) { image in
                     image.resizable()
                 } placeholder: {
@@ -38,6 +39,7 @@ struct ShowDetailView: View {
             Divider()
             
             if let summary = show.summary {
+                // filter the HTML tags from the show's summary
                 Text(summary.replacingOccurrences(of: #"\</?(p|b|i)>"#, with: "", options: .regularExpression, range: nil).replacingOccurrences(of: #"\<br />"#, with: "\n", options: .regularExpression, range: nil))
                     .padding()
             }
@@ -47,11 +49,13 @@ struct ShowDetailView: View {
                 element.id == show.id
             })
             
+            // if a show's ID doesn't exist in the notification IDs list, that show doesn't have notifications enabled
             notify = showsManager.notificationIds[show.id] != nil
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
+                // show whether or not a show is favorited in the toolbar
                 VStack {
                     Text(show.name)
                         .font(.headline)
@@ -73,6 +77,8 @@ struct ShowDetailView: View {
                             showsManager.disableNotifications(for: show)
                         }
                         
+                        // verify the notification state after toggling notifications
+                        // if enabling or disabling notifications fails, the button's status will not change
                         notify = showsManager.notificationIds[show.id] != nil
                     }
                     

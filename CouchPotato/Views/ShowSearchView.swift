@@ -11,6 +11,7 @@ struct ShowSearchResultView: View {
     var show: TvShow
     
     var body: some View {
+        // navigate to the show detail view on tap
         NavigationLink(destination: ShowDetailView(show: show)) {
             HStack {
                 if let image = show.image {
@@ -44,10 +45,9 @@ struct ShowSearchResultView: View {
 struct ShowSearchView: View {
     @State private var searchQuery: String = ""
     @State private var shows: [TvShow] = []
-    
-    let navigationTitle: String = "Search"
-    
     @State var textColor: Color = .primary
+
+    let navigationTitle: String = "Search"
     
     var body: some View {
         NavigationStack {
@@ -55,12 +55,14 @@ struct ShowSearchView: View {
                 Section {
                     TextField("Search for a TV show...", text: $searchQuery)
                         .onChange(of: searchQuery) {
+                            // search the API on each keystroke for maximum efficiency
                             TvMazeApiService.searchForShow(query: searchQuery) { result in
                                 switch (result) {
                                     case .success(let result):
-                                        shows = result
+                                        shows = result // set the list of shows
                                         textColor = .primary
                                     case .failure:
+                                        // if there's an error during the search, set the text color to red to indicate a problem
                                         textColor = .red
                                 }
                             }

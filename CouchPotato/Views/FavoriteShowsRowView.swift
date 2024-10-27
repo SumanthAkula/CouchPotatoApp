@@ -9,13 +9,13 @@ import SwiftUI
 
 struct FavoriteShowsRowView: View {
     @EnvironmentObject var favoritedShowsManager: FavoritedShowsManager
-    
+    @State var nextEpisode: TvEpisode? = nil
+    @State var previousEpisode: TvEpisode? = nil
+
     let show: TvShow
     var notify: Bool {
         favoritedShowsManager.notificationIds[show.id] != nil
-    }
-    @State var nextEpisode: TvEpisode? = nil
-    @State var previousEpisode: TvEpisode? = nil
+    } // computed property to check whether or not the show has notifications enabled
     
     var body: some View {
         HStack {
@@ -41,6 +41,7 @@ struct FavoriteShowsRowView: View {
                         .foregroundStyle(.secondary)
                 }
                 
+                // if the show has ended, show the date it ended
                 if let endDateString = show.ended {
                     var date: Date {
                         let df = DateFormatter()
@@ -51,16 +52,19 @@ struct FavoriteShowsRowView: View {
                         .font(.subheadline)
                 }
                 else if let next = nextEpisode?.airstamp ?? nil {
+                    // if the show has a next episode and has not ended, show time until next wpisode
                     let formatted = timeDifferenceFormatted(date: next)
                     Text("Next episode in \(formatted)")
                         .font(.subheadline)
                 } else if let prev = previousEpisode?.airstamp ?? nil {
+                    // otherwise, just show how long ago the last episode was
                     let formatted = timeDifferenceFormatted(date: prev)
                     Text("Last episode \(formatted) ago")
                         .font(.subheadline)
                 }
             }
             .onAppear {
+                // get information about next episode - if it exists
                 if let link = self.show._links.nextEpisode?.link {
                     TvMazeApiService.getEpisode(link: link) { result in
                         switch (result) {
@@ -73,6 +77,7 @@ struct FavoriteShowsRowView: View {
                     }
                 }
                 
+                // get informatino about the previous episode - if it exists
                 if let link = self.show._links.previousEpisode?.link {
                     TvMazeApiService.getEpisode(link: link) { result in
                         switch (result) {
@@ -87,12 +92,14 @@ struct FavoriteShowsRowView: View {
             }
             Spacer()
             if (notify) {
+                // if notifications are enabled, show a little bell icon to indicate that
                 Image(systemName: "bell.fill")
                     .foregroundStyle(.secondary)
             }
         }
     }
     
+    // formats a date so it shows how long into the future or past the given date will be
     private func timeDifferenceFormatted(date: Date) -> String {
         let timeComponents = Calendar.current.dateComponents([.hour, .day, .month, .year], from: Date.now, to: date)
         
