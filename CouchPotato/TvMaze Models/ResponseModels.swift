@@ -51,6 +51,7 @@ struct TvImageUrl: Codable {
     let large: String?
     let original: String?
     
+    // computed property to get the URL of the highest resolution image available
     var url: URL? {
         if let original = self.original {
             return URL(string: original)
@@ -88,6 +89,7 @@ struct TvShow: Identifiable, Codable {
     let _links: TvEmbeddings
     
     static func ==(lhs: TvShow, rhs: TvShow) -> Bool {
+        // if 2 shows have the same ID, they are the same show
         return lhs.id == rhs.id
     }
 }
