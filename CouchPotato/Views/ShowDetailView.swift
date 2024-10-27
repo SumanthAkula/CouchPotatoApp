@@ -10,8 +10,8 @@ import SwiftUI
 struct ShowDetailView: View {
     @EnvironmentObject var showsManager: FavoritedShowsManager
     
-    @State var favorited: Bool = false
-    @State var notify: Bool = false
+    @State private var favorited: Bool = false
+    @State private var notify: Bool = false
     
     let show: TvShow
     
@@ -41,8 +41,6 @@ struct ShowDetailView: View {
                 Text(summary.replacingOccurrences(of: #"\</?(p|b|i)>"#, with: "", options: .regularExpression, range: nil).replacingOccurrences(of: #"\<br />"#, with: "\n", options: .regularExpression, range: nil))
                     .padding()
             }
-            
-            Divider()
         }
         .onAppear {
             favorited = showsManager.trackedShows.contains(where: { element in
