@@ -120,7 +120,7 @@ struct FavoriteShowsRowView: View {
             } else if (hours != 0) {
                 return "\(abs(hours)) hours"
             } else {
-                return ""
+                return "less  than an hour"
             }
         }
         
