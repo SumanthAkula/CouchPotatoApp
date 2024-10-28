@@ -101,10 +101,22 @@ class FavoritedShowsManager: ObservableObject {
             
             // step 4: add the request to notification center
             let notificationCenter = UNUserNotificationCenter.current()
+            
+            // step 4.1: ask permission for notifications
+            notificationCenter.requestAuthorization(options: [.badge, .sound, .alert]) { success, error in
+                if let error {
+                    print(error)
+                    return
+                }
+            }
+            
             notificationCenter.add(request) { error in
                 if let error = error {
                     print("Notification error: \(error.localizedDescription)")
                 } else {
+                    print(
+                        "New notification registered: \(show.name) at \((request.trigger as! UNCalendarNotificationTrigger).nextTriggerDate()!) current: \(Date.now)"
+                    )
                     notificationIds.append(uuid)
                 }
             }
